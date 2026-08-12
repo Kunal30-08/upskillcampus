@@ -1,0 +1,382 @@
+[
+    {
+        "id": "31d72a7fa31115e4",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5b68f1e193ab7829",
+        "type": "inject",
+        "z": "31d72a7fa31115e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 240,
+        "wires": [
+            [
+                "b8725497e0eb61b2"
+            ]
+        ]
+    },
+    {
+        "id": "b8725497e0eb61b2",
+        "type": "function",
+        "z": "31d72a7fa31115e4",
+        "name": "Weather Data Simulator",
+        "func": "let temp = Math.floor(Math.random() * 21) + 20;\nlet hum = Math.floor(Math.random() * 101);\n\nlet weather;\n\nif (temp >= 30) {\n    weather = \"Sunny\";\n}\nelse if (temp >= 20) {\n    weather = \"Cloudy\";\n}\nelse {\n    weather = \"Rainy\";\n}\n\nmsg.payload = {\n    temperature: temp,\n    humidity: hum,\n    status: weather\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 280,
+        "wires": [
+            [
+                "64d8ec96139b196f"
+            ]
+        ]
+    },
+    {
+        "id": "eeabda67fe78559c",
+        "type": "ui_gauge",
+        "z": "31d72a7fa31115e4",
+        "name": "",
+        "group": "902d7de13e58e746",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "C",
+        "format": "{{value}}",
+        "min": "20",
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1350,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e97adb3f87d1bd51",
+        "type": "ui_gauge",
+        "z": "31d72a7fa31115e4",
+        "name": "",
+        "group": "902d7de13e58e746",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 1400,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "d29949a1aeba4a24",
+        "type": "ui_text",
+        "z": "31d72a7fa31115e4",
+        "group": "902d7de13e58e746",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Weather Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1360,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "20c16eda0fcac075",
+        "type": "mqtt in",
+        "z": "31d72a7fa31115e4",
+        "name": "",
+        "topic": "weather/data",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "dc87b4dab5b976ae",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 590,
+        "y": 120,
+        "wires": [
+            [
+                "ccea5241413d0a2c"
+            ]
+        ]
+    },
+    {
+        "id": "64d8ec96139b196f",
+        "type": "mqtt out",
+        "z": "31d72a7fa31115e4",
+        "name": "",
+        "topic": "weather/data",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "dc87b4dab5b976ae",
+        "x": 410,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "ccea5241413d0a2c",
+        "type": "json",
+        "z": "31d72a7fa31115e4",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 750,
+        "y": 200,
+        "wires": [
+            [
+                "61178f49136ac373",
+                "a0935ebf9891f586"
+            ]
+        ]
+    },
+    {
+        "id": "a0935ebf9891f586",
+        "type": "debug",
+        "z": "31d72a7fa31115e4",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "61178f49136ac373",
+        "type": "function",
+        "z": "31d72a7fa31115e4",
+        "name": "Data Separator",
+        "func": "let temp = msg.payload.temperature;\nlet hum = msg.payload.humidity;\nlet status = msg.payload.status;\n\nreturn [\n    { payload: temp },\n    { payload: hum },\n    { payload: status }\n];",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 300,
+        "wires": [
+            [
+                "eeabda67fe78559c",
+                "78b47a3c4d953272"
+            ],
+            [
+                "e97adb3f87d1bd51",
+                "38fae1ec89cc6ed3"
+            ],
+            [
+                "d29949a1aeba4a24"
+            ]
+        ]
+    },
+    {
+        "id": "78b47a3c4d953272",
+        "type": "ui_chart",
+        "z": "31d72a7fa31115e4",
+        "name": "",
+        "group": "902d7de13e58e746",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature (C)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1340,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "38fae1ec89cc6ed3",
+        "type": "ui_chart",
+        "z": "31d72a7fa31115e4",
+        "name": "",
+        "group": "902d7de13e58e746",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Humidity(%)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1550,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "902d7de13e58e746",
+        "type": "ui_group",
+        "name": "Weather",
+        "tab": "90cbb4acadfdab3e",
+        "order": 1,
+        "disp": true,
+        "width": 8,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "dc87b4dab5b976ae",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "90cbb4acadfdab3e",
+        "type": "ui_tab",
+        "name": "Weather Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "3c4f9b88990909e0",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
